@@ -15,12 +15,12 @@
 import boto3, botocore
 
 ## Set the values below if using Lambda Scheduled Event as an Event Source, otherwise leave empty and send data through the Lambda event payload
-S3BCUKET=''
-S3PREFIX=''
-RDSINSANCE=''
-LOGNAME=''
-LASTRECIEVED=''
-REGION=''
+S3BCUKET='flp-stg-rds-logs'
+S3PREFIX='test1/'
+RDSINSANCE='flp-stg-main-master-common-rds'
+LOGNAME='slowquery/mysql-slowquery.log'
+LASTRECIEVED='lastWrittenMarker'
+REGION='ap-northeast-1'
 
 def lambda_handler(event, context):
 	firstRun = False
@@ -88,6 +88,5 @@ def lambda_handler(event, context):
 		return "Error writting object to S3 bucket, S3 ClientError: " + e.response['Error']['Message']
 	print("Wrote new Last Written Marker to %s in Bucket %s" % (lastRecievedFile,S3BucketName))
 	return "Log file export complete"
-
 
 
