@@ -43,9 +43,11 @@ def lambda_handler(event, context):
 		region = REGION
 	RDSclient = boto3.client('rds',region_name=region)
 	S3client = boto3.client('s3',region_name=region)
-	dbLogs = RDSclient.describe_db_log_files( DBInstanceIdentifier=RDSInstanceName, FilenameContains=logNamePrefix)
-	lastWrittenTime = 0
-	lastWrittenThisRun = 0
+	
+	for onerecord in @rds:
+		dbLogs = RDSclient.describe_db_log_files( DBInstanceIdentifier=onerecord[RDSInstanceName], FilenameContains=logNamePrefix)
+		lastWrittenTime = 0
+		lastWrittenThisRun = 0
 	try:
 		S3response = S3client.head_bucket(Bucket=S3BucketName)
 	except botocore.exceptions.ClientError as e:
